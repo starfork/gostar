@@ -1,0 +1,16 @@
+ 
+
+//Repository 函数定义
+CreateTransaction(*pb.TransactionCreateRequest) (*pb.Transaction, error)
+UpdateTransaction(*pb.TransactionUpdateRequest) (*pb.Transaction, error)
+DeleteTransaction(*pb.TransactionDeleteRequest) (*pb.Response, error) 
+FetchTransaction(*pb.TransactionFetchRequest) (*pb.TransactionResponse, error)
+
+//proto handler里的函数定义
+
+
+rpc CreateTransaction(TransactionCreateRequest) returns (TransactionResponse) {}
+rpc FetchTransaction(TransactionFetchRequest) returns (TransactionResponse) {}
+rpc UpdateTransaction(TransactionUpdateRequest) returns (Response) {} 
+rpc DeleteTransaction(TransactionUpdateRequest) returns (Response) {} 
+ 

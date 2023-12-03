@@ -1,0 +1,63 @@
+syntax = "proto3";
+package go.park.finance;
+
+option go_package = ".;finance";
+
+ 
+message Deposit {
+    uint64 id=1;//
+    uint32 website_id=2;//
+    uint32 uid=3;//
+    uint64 sn=4;//
+    double amount=5;//金额
+    double balance=6;//余额
+    string type=7;//资金类型
+    string create_time=8;//
+     
+}
+message DepositCreateRequest{
+    uint64 id=1;//
+    uint32 website_id=2;//
+    uint32 uid=3;//
+    uint64 sn=4;//
+    double amount=5;//金额
+    double balance=6;//余额
+    string type=7;//资金类型
+    string create_time=8;//
+     
+}
+message DepositUpdateRequest{
+    uint64 id=1;//
+    uint32 website_id=2;//
+    uint32 uid=3;//
+    uint64 sn=4;//
+    double amount=5;//金额
+    double balance=6;//余额
+    string type=7;//资金类型
+    string create_time=8;//
+     
+}
+message DepositDeleteRequest{
+    uint32 id = 1;
+}
+
+message DepositFetchRequest{
+    uint64 id=1;//
+    uint32 website_id=2;//
+    uint32 uid=3;//
+    uint64 sn=4;//
+    double amount=5;//金额
+    double balance=6;//余额
+    string type=7;//资金类型
+    string create_time=8;//
+     
+    uint32 page = 9;
+    uint32 limit = 10;    
+}
+
+
+message DepositResponse{
+    int64 count = 1;
+    repeated Deposit data = 2;
+}
+ 
