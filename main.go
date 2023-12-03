@@ -18,15 +18,12 @@ func main() {
 		Usage: "stargo tools collection",
 		Commands: []*cli.Command{
 			{
-				Name:   "new",
-				Usage:  "create project files",
-				Flags:  generator.Flags,
-				Before: generator.Action,
-				Action: func(ctx *cli.Context) error {
-					fmt.Println("added task: ", ctx.Args().First())
-					return nil
-				},
-				Subcommands: generator.Commands,
+				Name:        "new",
+				Usage:       "create project files",
+				Flags:       generator.Flags,
+				Before:      generator.Before,
+				Action:      generator.Action,
+				Subcommands: generator.Subcommands(),
 			},
 			{
 				Name:  "other",

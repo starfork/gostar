@@ -70,6 +70,7 @@ func DefaultOptions() Options {
 		tableName: "stargo",
 		svcName:   "",
 		genType:   "table",
+		basePath:  "./build/",
 	}
 	return o
 }

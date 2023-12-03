@@ -8,8 +8,9 @@ import (
 	"text/template"
 
 	"github.com/starfork/gostar/generator/sql2pb"
-	"github.com/urfave/cli/v2"
 )
+
+var Gtr *Generator
 
 type Generator struct {
 	s *sql2pb.Schema
@@ -18,17 +19,8 @@ type Generator struct {
 	//model   string
 	basePath string
 	genType  string
-}
 
-func NewCtx(ctx *cli.Context) (*Generator, error) {
-	return New(
-		DbHost(ctx.String("db_host")),
-		DbName(ctx.String("db_name")),
-		DbPasswd(ctx.String("db_passwd")),
-		DbUser(ctx.String("db_user")),
-		Name(ctx.String("name")),
-		Path(ctx.String("path")),
-	)
+	initProject bool
 }
 
 func New(opts ...Option) (*Generator, error) {
@@ -46,8 +38,9 @@ func New(opts ...Option) (*Generator, error) {
 	}
 
 	g := &Generator{
-		svcName:  opt.svcName,
-		basePath: opt.basePath,
+		svcName:     opt.svcName,
+		basePath:    opt.basePath,
+		initProject: false,
 	}
 
 	defer db.Close()
@@ -59,19 +52,31 @@ func New(opts ...Option) (*Generator, error) {
 }
 
 func (e *Generator) Create() error {
+	dirs := []string{
+		"cmd",
+		"config",
+		"internal",
+		"internal/server",
+		"internal/consts",
+		"internal/codes",
+		"internal/logic",
+		"internal/repository",
+		"internal/repository/mysql",
+		"pkg",
+		"pkg/proto",
+		"pkg/pb",
+	}
+	bpath := e.basePath + "/" + e.svcName //生成在当前目录
+	os.Mkdir(bpath, os.ModePerm)
+	for _, v := range dirs {
+		err := os.Mkdir(bpath+"/"+v, os.ModePerm)
+		fmt.Println(err)
+	}
 
-	fmt.Println("start gen " + e.svcName)
-	// if cCtx.String("lang") != "table" {
-	// 	//一般用不到者
-	// 	e.genHandler()
-	// }
-
-	// e.genModel()
 	return nil
-
 }
 
-func (e *Generator) genHandler() {
+func (e *Generator) Handler() {
 	t, _ := e.newTpl("proto.handler.tpl")
 	var tf *os.File
 	var err error
@@ -87,7 +92,7 @@ func (e *Generator) genHandler() {
 }
 
 // 生成模块
-func (e *Generator) genModel() error {
+func (e *Generator) Model() error {
 	var tproto, tserver, trepository, trepoproto *template.Template
 	var err error
 	if tproto, err = e.newTpl("proto.model.tpl"); err != nil {
@@ -162,6 +167,8 @@ func (e *Generator) genModel() error {
 }
 
 func (e *Generator) createFile(f string) (*os.File, error) {
+	fmt.Printf("basepath:%s", e.basePath)
+
 	return os.Create(e.basePath + "/" + f)
 }
 
