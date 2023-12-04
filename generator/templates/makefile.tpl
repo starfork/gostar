@@ -63,7 +63,6 @@ define  build_service_proto
 	-I=../../park-pkg/proto/ \
 	--go-grpc_out=./ \
 	--go_out=./ \
-	--gorm_out=./ \
 	$(PKG_PATH)/proto/*.proto
 	@protoc-go-inject-tag -input=$(PKG_PATH)/pb/*.pb.go  
 endef 

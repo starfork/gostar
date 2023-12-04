@@ -30,5 +30,8 @@ func Inc(i int, step ...int) int {
 func ToPath(str string) string {
 	temp := snaker.CamelToSnake(str)
 	return strings.Join(strings.Split(temp, "_"), "/")
+}
 
+func In(s, sub string) bool {
+	return strings.Contains(s, sub)
 }
