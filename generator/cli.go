@@ -93,25 +93,18 @@ var Commands = []*cli.Command{
 	},
 }
 
-func Before(tplpath ...string) func(ctx *cli.Context) (err error) {
-	tpl := "../templates/"
-	if len(tplpath) > 0 {
-		tpl = tplpath[0]
-	}
-	return func(ctx *cli.Context) (err error) {
-		Gtr, err = New(
-			DbHost(ctx.String("db_host")),
-			DbName(ctx.String("db_name")),
-			DbPasswd(ctx.String("db_passwd")),
-			DbUser(ctx.String("db_user")),
-			Name(ctx.String("name")),
-			Path(ctx.String("path")),
-			Models(ctx.String("model")), //tables
-		)
+func Before(ctx *cli.Context) (err error) {
+	Gtr, err = New(
+		DbHost(ctx.String("db_host")),
+		DbName(ctx.String("db_name")),
+		DbPasswd(ctx.String("db_passwd")),
+		DbUser(ctx.String("db_user")),
+		Name(ctx.String("name")),
+		Path(ctx.String("path")),
+		Models(ctx.String("model")), //tables
+	)
 
-		Gtr.TplPath = tpl
-		return
-	}
+	return
 }
 
 // 往上层传递，带上分类

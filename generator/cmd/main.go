@@ -25,7 +25,7 @@ func main() {
 		Flags:    generator.Flags,
 		Action:   generator.Action,
 		Commands: generator.Commands,
-		Before:   generator.Before(),
+		Before:   generator.Before,
 	}
 
 	// app.Before = func(ctx *cli.Context) (err error) {

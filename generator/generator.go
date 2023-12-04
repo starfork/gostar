@@ -2,6 +2,7 @@ package generator
 
 import (
 	"database/sql"
+	"embed"
 	"fmt"
 	"os"
 	"strings"
@@ -9,6 +10,9 @@ import (
 
 	"github.com/starfork/gostar/generator/sql2pb"
 )
+
+//go:embed templates/*
+var tplFs embed.FS
 
 var Gtr *Generator
 
@@ -20,7 +24,6 @@ type Generator struct {
 	basePath string
 
 	initProject bool
-	TplPath     string
 }
 
 func New(opts ...Option) (*Generator, error) {
@@ -40,7 +43,6 @@ func New(opts ...Option) (*Generator, error) {
 		svcName:     opt.svcName,
 		basePath:    opt.basePath + opt.svcName + "/",
 		initProject: false,
-		TplPath:     "../templates/",
 	}
 
 	defer db.Close()
@@ -155,5 +157,5 @@ func (e *Generator) newTpl(name string) (*template.Template, error) {
 		"inc":     Inc,
 		"topath":  ToPath,
 		"lower":   Lower,
-	}).ParseFiles(e.TplPath + name)
+	}).ParseFS(tplFs, "templates/"+name)
 }

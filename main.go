@@ -24,7 +24,7 @@ func main() {
 				Usage:       "create project files",
 				Flags:       generator.Flags,
 				Aliases:     []string{"gen"},
-				Before:      generator.Before("./generator/templates/"),
+				Before:      generator.Before,
 				Action:      generator.Action,
 				Subcommands: generator.Subcommands(),
 			},
