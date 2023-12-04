@@ -5,15 +5,15 @@ import (
 	"gorm.io/gorm"
 
 	db "github.com/starfork/stargo/store/mysql"  
-	pb "{{.ServiceName}}/pkg/pb"
+	pb "service/{{.ServiceName}}/pkg/pb"
  
 	mp "github.com/mitchellh/mapstructure"
 	 
 )
 
 type {{ucwords .Name}} struct {
-	DeletedAt gorm.DeletedAt `gorm:"index"`
 	*pb.{{ucwords .Name}} 
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 func (p *{{ucwords .Name}}) Unmarshal() { 

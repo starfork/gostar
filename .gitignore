@@ -21,3 +21,4 @@
 go.work
 go.sum
 ./gostar
+.env.development

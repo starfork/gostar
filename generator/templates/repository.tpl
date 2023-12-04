@@ -1,17 +1,11 @@
 package repository
 
-import (
-	"public/pkg/app"
-
-	"{{.ServiceName}}/internal/repository/mysql"
-	
-    pb "{{.ServiceName}}/pkg/pb"
+import ( 
+ 
+    pb "service/{{.ServiceName}}/pkg/pb"
 )
 
-func New(app *app.App) {{ucwords .ServiceName}}Repository {
-	return mysql.New(app)
-}
-
+ 
 type {{ucwords .ServiceName}}Repository interface {
     {{range .Messages}}
     //{{ucwords .Name}}

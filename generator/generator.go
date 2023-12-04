@@ -18,9 +18,9 @@ type Generator struct {
 	svcName string
 	//model   string
 	basePath string
-	genType  string
 
 	initProject bool
+	TplPath     string
 }
 
 func New(opts ...Option) (*Generator, error) {
@@ -36,22 +36,23 @@ func New(opts ...Option) (*Generator, error) {
 	if db, err = sql.Open(opt.dbType, connStr); err != nil {
 		return nil, err
 	}
-
 	g := &Generator{
 		svcName:     opt.svcName,
-		basePath:    opt.basePath,
+		basePath:    opt.basePath + opt.svcName + "/",
 		initProject: false,
+		TplPath:     "../templates/",
 	}
 
 	defer db.Close()
-	if g.s, err = sql2pb.GenerateSchema(db, opt.model, opt.svcName, opt.svcName,
+	if g.s, err = sql2pb.GenerateSchema(db, opt.models, opt.svcName, opt.svcName,
 		opt.fieldStyle, opt.tablePrefix, nil, nil); err != nil {
 		return nil, err
 	}
 	return g, nil
 }
 
-func (e *Generator) Create() error {
+// 项目目录
+func (e *Generator) Folders() error {
 	dirs := []string{
 		"cmd",
 		"config",
@@ -66,50 +67,38 @@ func (e *Generator) Create() error {
 		"pkg/proto",
 		"pkg/pb",
 	}
-	bpath := e.basePath + "/" + e.svcName //生成在当前目录
-	os.Mkdir(bpath, os.ModePerm)
+	os.Mkdir(e.basePath, os.ModePerm)
 	for _, v := range dirs {
-		err := os.Mkdir(bpath+"/"+v, os.ModePerm)
-		fmt.Println(err)
+		os.Mkdir(e.basePath+v, os.ModePerm)
+		//目录检测，不成功返回？
 	}
-
 	return nil
 }
 
-func (e *Generator) Handler() {
-	t, _ := e.newTpl("proto.handler.tpl")
-	var tf *os.File
-	var err error
+func (e *Generator) ProtoHandler() {
+	e.genTpl("proto.handler.tpl", "pkg/proto/"+e.svcName+"_handler"+".proto")
+}
 
-	if tf, err = e.createFile("pkg/proto/" + e.svcName + "_handler" + ".proto"); err != nil {
-		panic(err)
-	}
-	if err := t.Execute(tf, e.s); err != nil {
-		panic(err)
-	}
+// server/handler.go
+func (e *Generator) ServerHandler() {
+	e.genTpl("server.handler.tpl", "internal/server/handler.go")
+}
 
-	defer tf.Close()
+func (e *Generator) Repository() {
+	e.genTpl("repository.tpl", "internal/repository/repository.go")
+}
+func (e *Generator) Makefile() {
+	e.genTpl("makefile.tpl", "Makefile")
+}
+func (e *Generator) MainRoot() {
+	e.genTpl("main.go.tpl", "cmd/main.go")
+}
+func (e *Generator) Config() {
+	e.genTpl("debug.json.tpl", "config/debug.json")
 }
 
 // 生成模块
-func (e *Generator) Model() error {
-	var tproto, tserver, trepository, trepoproto *template.Template
-	var err error
-	if tproto, err = e.newTpl("proto.model.tpl"); err != nil {
-		return err
-	}
-	if tserver, err = e.newTpl("server.model.tpl"); err != nil {
-		return err
-	}
-	if trepository, err = e.newTpl("repository.model.tpl"); err != nil {
-		return err
-	}
-	if trepoproto, err = e.newTpl("repo-proto-model.tpl"); err != nil {
-		return err
-	}
-
-	var tfproto, tfserver, tfrepository, tfrepoproto *os.File
-
+func (e *Generator) Models() error {
 	type messsage struct {
 		ServiceName string
 		Name        string
@@ -124,52 +113,40 @@ func (e *Generator) Model() error {
 			FielNum:     len(m.Fields),
 		}
 		fName := strings.ToLower(m.FileName)
-		//.proto文件
-		if tfproto, err = e.createFile("pkg/proto/" + e.svcName + "_" + fName + ".proto"); err != nil {
-			return err
-		}
-		if err := tproto.Execute(tfproto, msg); err != nil {
-			return err
-		}
-		//server/xxx.go文件
-		if tfserver, err = e.createFile("internal/server/" + fName + ".go"); err != nil {
-			return err
-		}
-		if err := tserver.Execute(tfserver, msg); err != nil {
-			return err
-		}
-		//repository/mysql/xxx.go文件
-		if tfrepository, err = e.createFile("internal/repository/mysql/" + fName + ".go"); err != nil {
-			panic(err)
-		}
-		if err := trepository.Execute(tfrepository, msg); err != nil {
-			panic(err)
-		}
-		//如果是全局构建，则不需要创建下面的东西
-		if e.genType == "table" {
-
-			if tfrepoproto, err = e.createFile(fName + ".mix"); err != nil {
-				return err
-			}
-			if err := trepoproto.Execute(tfrepoproto, msg); err != nil {
-				return err
-			}
-			defer tfrepoproto.Close()
-		}
+		e.genTpl("proto.model.tpl", "pkg/proto/"+e.svcName+"_"+fName+".proto", msg)
+		e.genTpl("server.model.tpl", "internal/server/"+fName+".go", msg)
+		e.genTpl("repository.model.tpl", "internal/repository/mysql/"+fName+".go", msg)
 
 	}
-
-	defer tfproto.Close()
-	defer tfserver.Close()
-	defer tfrepository.Close()
-	//
 	return nil
 }
 
-func (e *Generator) createFile(f string) (*os.File, error) {
-	fmt.Printf("basepath:%s", e.basePath)
+func (e *Generator) genTpl(tpl, f string, data ...any) {
+	var tf *os.File
+	var err error
+	var t *template.Template
+	var d any
+	if len(data) > 0 {
+		d = data[0]
+	} else {
+		d = e.s
+	}
 
-	return os.Create(e.basePath + "/" + f)
+	if t, err = e.newTpl(tpl); err != nil {
+		panic(err)
+	}
+	if tf, err = e.createFile(f); err != nil {
+		panic(err)
+	}
+	if err = t.Execute(tf, d); err != nil {
+		panic(err)
+	}
+	defer tf.Close()
+}
+
+func (e *Generator) createFile(f string) (*os.File, error) {
+	//fmt.Println("create file : " + e.basePath + f)
+	return os.Create(e.basePath + f)
 }
 
 func (e *Generator) newTpl(name string) (*template.Template, error) {
@@ -177,5 +154,6 @@ func (e *Generator) newTpl(name string) (*template.Template, error) {
 		"ucwords": Ucwords,
 		"inc":     Inc,
 		"topath":  ToPath,
-	}).ParseFiles("templates/" + name)
+		"lower":   Lower,
+	}).ParseFiles(e.TplPath + name)
 }

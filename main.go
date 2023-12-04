@@ -8,6 +8,8 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/starfork/gostar/generator"
 	"github.com/urfave/cli/v2"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
@@ -21,7 +23,8 @@ func main() {
 				Name:        "new",
 				Usage:       "create project files",
 				Flags:       generator.Flags,
-				Before:      generator.Before,
+				Aliases:     []string{"gen"},
+				Before:      generator.Before("./generator/templates/"),
 				Action:      generator.Action,
 				Subcommands: generator.Subcommands(),
 			},

@@ -13,9 +13,8 @@ type Options struct {
 	tableName string
 
 	svcName     string
-	model       string
+	models      string
 	basePath    string
-	genType     string
 	tablePrefix string
 }
 type Option func(o *Options)
@@ -40,20 +39,31 @@ func DbHost(c string) Option {
 		o.dbHost = c
 	}
 }
+
+// DB port
 func DbPort(c string) Option {
 	return func(o *Options) {
 		o.dbPort = c
 	}
 }
 
+// Service Name
 func Name(c string) Option {
 	return func(o *Options) {
 		o.svcName = c
 	}
 }
+
+// Project base path
 func Path(c string) Option {
 	return func(o *Options) {
 		o.basePath = c
+	}
+}
+
+func Models(c string) Option {
+	return func(o *Options) {
+		o.models = c
 	}
 }
 
@@ -69,8 +79,6 @@ func DefaultOptions() Options {
 
 		tableName: "stargo",
 		svcName:   "",
-		genType:   "table",
-		basePath:  "./build/",
 	}
 	return o
 }

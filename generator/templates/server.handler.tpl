@@ -3,7 +3,7 @@ package server
 import (
 	"public/pkg/app"
 	repo "{{.ServiceName}}/internal/repository"
-	pb "{{.ServiceName}}/pkg/pb"
+	pb "service/{{.ServiceName}}/pkg/pb"
 
 	"go.uber.org/zap"
 )

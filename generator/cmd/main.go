@@ -16,7 +16,7 @@ type Driver struct {
 }
 
 func main() {
-	godotenv.Load(".env.development")
+	godotenv.Load("../../.env.development")
 
 	//var gtr *generator.Generator
 	app := cli.App{
@@ -25,7 +25,7 @@ func main() {
 		Flags:    generator.Flags,
 		Action:   generator.Action,
 		Commands: generator.Commands,
-		Before:   generator.Before,
+		Before:   generator.Before(),
 	}
 
 	// app.Before = func(ctx *cli.Context) (err error) {

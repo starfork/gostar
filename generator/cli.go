@@ -9,9 +9,18 @@ import (
 //var Flags=
 
 var Action = func(ctx *cli.Context) error {
-	fmt.Println("start gen root")
-	fmt.Println(Gtr.Create())
-	fmt.Println("end gen root")
+	//传递model的时候不生成特殊文件
+	if ctx.String("model") == "" {
+		Gtr.Folders()
+		Gtr.ProtoHandler()
+		Gtr.ServerHandler()
+		Gtr.Repository()
+		Gtr.Makefile()
+		Gtr.MainRoot()
+		Gtr.Config()
+	}
+	Gtr.Models()
+	fmt.Println("job done!")
 	return nil
 }
 var Flags = []cli.Flag{
@@ -51,6 +60,16 @@ var Flags = []cli.Flag{
 		Aliases: []string{"p"},
 		Usage:   "base path",
 	},
+	&cli.StringFlag{
+		Name:    "prefix",
+		Aliases: []string{"pfx"},
+		Usage:   "table prefix",
+	},
+	&cli.StringFlag{
+		Name:    "model",
+		Aliases: []string{"m"},
+		Usage:   "models specific",
+	},
 }
 var Commands = []*cli.Command{
 	{
@@ -58,7 +77,7 @@ var Commands = []*cli.Command{
 		Usage: "generate api files",
 		//Category: "new",
 		Action: func(ctx *cli.Context) error {
-			//return genApis()
+			//return genApis()=
 			fmt.Println("gen api")
 			return nil
 		},
@@ -74,16 +93,25 @@ var Commands = []*cli.Command{
 	},
 }
 
-func Before(ctx *cli.Context) (err error) {
-	Gtr, err = New(
-		DbHost(ctx.String("db_host")),
-		DbName(ctx.String("db_name")),
-		DbPasswd(ctx.String("db_passwd")),
-		DbUser(ctx.String("db_user")),
-		Name(ctx.String("name")),
-		Path(ctx.String("path")),
-	)
-	return
+func Before(tplpath ...string) func(ctx *cli.Context) (err error) {
+	tpl := "../templates/"
+	if len(tplpath) > 0 {
+		tpl = tplpath[0]
+	}
+	return func(ctx *cli.Context) (err error) {
+		Gtr, err = New(
+			DbHost(ctx.String("db_host")),
+			DbName(ctx.String("db_name")),
+			DbPasswd(ctx.String("db_passwd")),
+			DbUser(ctx.String("db_user")),
+			Name(ctx.String("name")),
+			Path(ctx.String("path")),
+			Models(ctx.String("model")), //tables
+		)
+
+		Gtr.TplPath = tpl
+		return
+	}
 }
 
 // 往上层传递，带上分类
