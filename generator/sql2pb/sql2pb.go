@@ -5,10 +5,11 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"park/pkg/tool/generator/sql2pb/stringx"
 	"regexp"
 	"sort"
 	"strings"
+
+	"github.com/starfork/gostar/generator/sql2pb/stringx"
 
 	"github.com/chuckpreslar/inflect"
 	"github.com/serenize/snaker"

@@ -60,9 +60,10 @@ define  build_service_proto
 	$(eval PKG_PATH=./pkg) 
 	@rm -rf $(PKG_PATH)/pb/*
 	@protoc --proto_path=$(PKG_PATH)/proto/ \
-	--go-grpc_out=$(PKG_PATH)/pb/ \
-	--go_out=$(PKG_PATH)/pb/ \
-	--gorm_out="engine=mysql:$(PKG_PATH)/pb/" \
+	-I=../../park-pkg/proto/ \
+	--go-grpc_out=./ \
+	--go_out=./ \
+	--gorm_out=./ \
 	$(PKG_PATH)/proto/*.proto
 	@protoc-go-inject-tag -input=$(PKG_PATH)/pb/*.pb.go  
 endef 

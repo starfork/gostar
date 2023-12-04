@@ -10,6 +10,7 @@ import (
 
 var Action = func(ctx *cli.Context) error {
 	//传递model的时候不生成特殊文件
+
 	if ctx.String("model") == "" {
 		Gtr.Folders()
 		Gtr.ProtoHandler()
@@ -18,8 +19,12 @@ var Action = func(ctx *cli.Context) error {
 		Gtr.Makefile()
 		Gtr.MainRoot()
 		Gtr.Config()
+
+		Gtr.ConfigGo() //config 通用形式
+
 	}
 	Gtr.Models()
+
 	fmt.Println("job done!")
 	return nil
 }

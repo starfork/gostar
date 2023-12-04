@@ -2,9 +2,12 @@ package server
 
 import (
 	"public/pkg/app"
-	repo "{{.ServiceName}}/internal/repository"
+	repo "service/{{.ServiceName}}/internal/repository" 
+	"service/{{.ServiceName}}/internal/repository/mysql"
+
 	pb "service/{{.ServiceName}}/pkg/pb"
 
+	"github.com/starfork/stargo"
 	"go.uber.org/zap"
 )
 
@@ -15,11 +18,11 @@ type handler struct {
 }
 
 // New handler
-func New(app *app.App) *handler {
+func New(app *stargo.App) *handler {
 	//logger :=
 
 	return &handler{
 		logger: app.GetLogger(),
-		r:      repo.New(app),
+		r:      mysql.New(app),
 	}
 }

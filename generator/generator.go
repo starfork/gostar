@@ -98,6 +98,9 @@ func (e *Generator) MainRoot() {
 func (e *Generator) Config() {
 	e.genTpl("debug.json.tpl", "config/debug.json")
 }
+func (e *Generator) ConfigGo() {
+	e.genTpl("server.config.go.tpl", "internal/server/server_config.go")
+}
 
 // 生成模块
 func (e *Generator) Models() error {
