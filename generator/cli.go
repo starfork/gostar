@@ -13,15 +13,7 @@ var Action = func(ctx *cli.Context) error {
 
 	if ctx.String("model") == "" {
 		Gtr.Folders()
-		Gtr.ProtoHandler()
-		Gtr.ServerHandler()
-		Gtr.Repository()
-		Gtr.Makefile()
-		Gtr.MainRoot()
-		Gtr.Config()
-
-		Gtr.ConfigGo() //config 通用形式
-
+		Gtr.SpecificFiles()
 	}
 	Gtr.Models()
 

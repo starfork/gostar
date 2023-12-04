@@ -77,29 +77,20 @@ func (e *Generator) Folders() error {
 	return nil
 }
 
-func (e *Generator) ProtoHandler() {
-	e.genTpl("proto.handler.tpl", "pkg/proto/"+e.svcName+"_handler"+".proto")
-}
-
-// server/handler.go
-func (e *Generator) ServerHandler() {
-	e.genTpl("server.handler.tpl", "internal/server/handler.go")
-}
-
-func (e *Generator) Repository() {
-	e.genTpl("repository.tpl", "internal/repository/repository.go")
-}
-func (e *Generator) Makefile() {
-	e.genTpl("makefile.tpl", "Makefile")
-}
-func (e *Generator) MainRoot() {
-	e.genTpl("main.go.tpl", "cmd/main.go")
-}
-func (e *Generator) Config() {
-	e.genTpl("debug.json.tpl", "config/debug.json")
-}
-func (e *Generator) ConfigGo() {
-	e.genTpl("server.config.go.tpl", "internal/server/server_config.go")
+func (e *Generator) SpecificFiles() {
+	fileMap := map[string]string{
+		"proto.handler.tpl":         "pkg/proto/" + e.svcName + "_handler" + ".proto", //xxx_handler.proto
+		"server.handler.tpl":        "internal/server/handler.go",
+		"repository.tpl":            "internal/repository/repository.go",
+		"makefile.tpl":              "Makefile",
+		"main.go.tpl":               "cmd/main.go",
+		"debug.json.tpl":            "config/debug.json",
+		"server.config.go.tpl":      "internal/server/server_config.go",
+		"repository.model.base.tpl": "internal/repository/mysql/base.go",
+	}
+	for k, v := range fileMap {
+		e.genTpl(k, v)
+	}
 }
 
 // 生成模块

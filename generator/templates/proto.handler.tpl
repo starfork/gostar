@@ -3,7 +3,7 @@ package go.park.{{.ServiceName}};
 {{- range .Messages}}
 import "{{$.ServiceName}}_{{lower .Name}}.proto";
 {{- end}}
-option go_package = ".;{{.ServiceName}}";
+option go_package = "pkg/pb;{{.ServiceName}}";
 
 service {{.ServiceName}}Handler {
     {{range .Messages}}
