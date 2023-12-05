@@ -69,6 +69,9 @@ func (e *Generator) Folders() error {
 		"pkg/proto",
 		"pkg/pb",
 	}
+	if _, err := os.Stat(e.basePath); err == nil {
+		return fmt.Errorf("%s is not empty", e.basePath)
+	}
 	os.Mkdir(e.basePath, os.ModePerm)
 	for _, v := range dirs {
 		os.Mkdir(e.basePath+v, os.ModePerm)

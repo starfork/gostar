@@ -1,8 +1,8 @@
 package mysql
 
 import ( 
-
 	"gorm.io/gorm"
+	"time"
 
 	db "github.com/starfork/stargo/store/mysql"  
 	pb "service/{{.ServiceName}}/pkg/pb"
@@ -13,29 +13,36 @@ import (
 
 type {{ucwords .Name}} struct {
 	*pb.{{ucwords .Name}} 
-	DeletedAt gorm.DeletedAt `gorm:"index"`
+	Dtm gorm.DeletedAt `gorm:"index:dtm"`
+	Ctm time.Time      `gorm:"default:CURRENT_TIMESTAMP(3);"`
+	Utm time.Time      `gorm:"default:NULL ON UPDATE CURRENT_TIMESTAMP(3);"`
 }
 
 func (p *{{ucwords .Name}}) Unmarshal() { 
+	
 }
   
 func (e *Repo) Create{{ucwords .Name}}(req *pb.{{ucwords .Name}}CreateRequest) (*pb.{{ucwords .Name}}, error) {
-	data :=  &pb.{{ucwords .Name}}{} 
-	mp.Decode(req, &data)
+	data :=  &{{ucwords .Name}}{} 
+	mp.Decode(req, &data.{{ucwords .Name}})
 	if  err := e.db.Create(&data).Error; err != nil {
 		return nil,err
 	} 
-
-	return data, nil
+	//data.Unmarshal()
+	return data.{{ucwords .Name}}, nil 
 }
  
 func (e *Repo) Update{{ucwords .Name}}(req *pb.{{ucwords .Name}}UpdateRequest) (*pb.{{ucwords .Name}}, error) {
-	data := &pb.{{ucwords .Name}}{}
-	mp.Decode(req, &data)
-	if err := e.db.Updates(&data).Error; err != nil {
-		return nil,err
-	} 
-	return data, nil
+	rs := &pb.{{ucwords .Name}}{Id: req.GetId()}
+	if err := e.db.First(rs).Error; err != nil {
+		return nil, err
+	}
+	data := &{{ucwords .Name}}{}
+	mp.Decode(req, &data.{{ucwords .Name}})
+	if err := e.db.Unscoped().Updates(&data).Error; err != nil {
+		return nil, err
+	}
+	return data.{{ucwords .Name}}, nil
 }
 
 func (e *Repo) Read{{ucwords .Name}}(req *pb.{{ucwords .Name}}FetchRequest) (*pb.{{ucwords .Name}}, error) {
@@ -61,8 +68,6 @@ func (e *Repo) Delete{{ucwords .Name}}(req *pb.{{ucwords .Name}}DeleteRequest) (
 }
 
 func (e *Repo) Fetch{{ucwords .Name}}(req *pb.{{ucwords .Name}}FetchRequest) (*pb.{{ucwords .Name}}Response, error) {
-
-
 	rs := []*{{ucwords .Name}}{}
 	maps := pb.{{ucwords .Name}}{}
 	mp.Decode(req, &maps)

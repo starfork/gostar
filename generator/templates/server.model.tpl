@@ -8,6 +8,9 @@ import (
 func (e *handler) Fetch{{ucwords .Name}} (ctx context.Context, req *pb.{{ucwords .Name}}FetchRequest) (*pb.{{ucwords .Name}}Response, error) {
 	return e.r.Fetch{{ucwords .Name}} (req) 
 }
+func (e *handler) Read{{ucwords .Name}} (ctx context.Context, req *pb.{{ucwords .Name}}FetchRequest) (*pb.{{ucwords .Name}}, error) {
+	return e.r.Read{{ucwords .Name}} (req) 
+}
 
 func (e *handler) Create{{ucwords .Name}} (ctx context.Context, req *pb.{{ucwords .Name}}CreateRequest) (*pb.{{ucwords .Name}}, error) {
 	return e.r.Create{{ucwords .Name}} (req) 
