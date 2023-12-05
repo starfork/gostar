@@ -18,3 +18,27 @@ example:
 ```
 gostar gen|new -n=test -pfx=test_
 ```
+
+If no error occurr you'll get this folders(files) 
+
+```
+
+├── Makefile
+├── cmd
+│   └── main.go  
+├── config
+│   └── debug.json
+├── internal
+│   ├── codes
+│   ├── consts
+│   ├── logic
+│   ├── repository
+│   │   ├── mysql
+│   │   └── repository.go
+│   └── server
+│       ├── handler.go
+│       └── server_config.go
+└── pkg
+    ├── pb
+    └── proto
+```
