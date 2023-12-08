@@ -1,7 +1,6 @@
 package server
 
-import (
-	"public/pkg/app"
+import ( 
 	repo "service/{{.ServiceName}}/internal/repository" 
 	"service/{{.ServiceName}}/internal/repository/mysql"
 
