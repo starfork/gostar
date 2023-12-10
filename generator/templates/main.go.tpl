@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"service/{{.ServiceName}}/internal/server"
-	pb "service/{{.ServiceName}}/pkg/pb"
+	pb "service/{{.ServiceName}}/pkg/pb/{{.ServiceName}}" 
 
 	"github.com/joho/godotenv"
 	"github.com/starfork/stargo"

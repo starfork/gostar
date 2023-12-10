@@ -2,7 +2,7 @@ package repository
 
 import ( 
  
-    pb "service/{{.ServiceName}}/pkg/pb"
+    pb "service/{{.ServiceName}}/pkg/pb/{{.ServiceName}}"
 )
 
  

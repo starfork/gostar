@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	pb "service/{{.ServiceName}}/pkg/pb"
+	pb "service/{{.ServiceName}}/pkg/pb/{{.ServiceName}}" 
 )
 
 func (e *handler) Fetch{{ucwords .Name}} (ctx context.Context, req *pb.{{ucwords .Name}}FetchRequest) (*pb.{{ucwords .Name}}Response, error) {

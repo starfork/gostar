@@ -8,7 +8,7 @@ import (
 
 	"github.com/starfork/stargo"
 
-	pb "service/{{.ServiceName}}/pkg/pb"
+	pb "service/{{.ServiceName}}/pkg/pb/{{.ServiceName}}"
 )
 
 type Repo struct {
@@ -16,7 +16,7 @@ type Repo struct {
 	logger *zap.SugaredLogger
 	//app *app.App
 	//uid *uid.UID //partner
-	//sfid *sf.Sonyflake
+	//sfid *sf.Sonyflakes
 }
 
 func New(app *stargo.App) repository.{{ucwords .ServiceName}}Repository {

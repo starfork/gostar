@@ -5,7 +5,7 @@ import (
 	"time"
 
 	db "github.com/starfork/stargo/store/mysql"  
-	pb "service/{{.ServiceName}}/pkg/pb"
+	pb "service/{{.ServiceName}}/pkg/pb/{{.ServiceName}}"
  
 	mp "github.com/mitchellh/mapstructure"
 	 
