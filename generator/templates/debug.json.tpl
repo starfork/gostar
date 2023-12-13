@@ -1,7 +1,7 @@
 {
     "server": {
         "environment": "debug",
-        "serverport": ":51100",
+        "port": ":51100",
         "timezome": "Asia/Shanghai",
         "mysql": {
             "debug": true,
