@@ -1,7 +1,7 @@
 syntax = "proto3";
 package go.park.{{.ServiceName}};
-
-option go_package = "pkg/pb;{{.ServiceName}}";
+ 
+option go_package = "pkg/pb/{{.ServiceName}}";
 
  
 message {{ucwords .Name}} {

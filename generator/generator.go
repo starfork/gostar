@@ -44,10 +44,14 @@ func New(opts ...Option) (*Generator, error) {
 		basePath:    opt.basePath + opt.svcName + "/",
 		initProject: false,
 	}
+	pfx := opt.tablePrefix
+	if pfx == "" {
+		pfx = opt.svcName + "_"
+	}
 
 	defer db.Close()
 	if g.s, err = sql2pb.GenerateSchema(db, opt.models, opt.svcName, opt.svcName,
-		opt.fieldStyle, opt.tablePrefix, nil, nil); err != nil {
+		opt.fieldStyle, pfx, nil, nil); err != nil {
 		return nil, err
 	}
 	return g, nil

@@ -67,6 +67,12 @@ func Models(c string) Option {
 	}
 }
 
+func Prefix(c string) Option {
+	return func(o *Options) {
+		o.tablePrefix = c
+	}
+}
+
 // DefaultOptions default options
 func DefaultOptions() Options {
 	o := Options{

@@ -80,12 +80,11 @@ var Commands = []*cli.Command{
 		},
 	},
 	{
-		Name: "handler",
+		Name: "models",
 		//Category: "new",
-		Usage: "generate handler",
+		Usage: "generate repo models",
 		Action: func(ctx *cli.Context) error {
-			fmt.Println("gen handler")
-			return nil
+			return Gtr.Models()
 		},
 	},
 }
@@ -99,6 +98,7 @@ func Before(ctx *cli.Context) (err error) {
 		Name(ctx.String("name")),
 		Path(ctx.String("path")),
 		Models(ctx.String("model")), //tables
+		Prefix(ctx.String("prefix")),
 	)
 
 	return
