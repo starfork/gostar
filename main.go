@@ -38,6 +38,7 @@ func main() {
 			},
 		},
 	}
+
 	app.Suggest = true
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)

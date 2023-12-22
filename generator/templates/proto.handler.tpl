@@ -17,4 +17,4 @@ service {{ucwords .ServiceName}}Handler {
 }
 
 message Empty {}
-message Response { string message = 2; }
+message Response { string msg = 2; }
