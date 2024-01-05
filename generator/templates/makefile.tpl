@@ -10,7 +10,7 @@ D_NAME = srv-{{.ServiceName}}
 #docker 端口 
 D_PORT = 51900
 #main.go 所在目录
-CMD_PATH = ./cmd/server
+CMD_PATH = ./cmd/server/
 ORG_NAME = go-park
 
 
