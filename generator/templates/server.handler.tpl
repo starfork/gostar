@@ -7,11 +7,11 @@ import (
 	pb "service/{{.ServiceName}}/pkg/pb/{{.ServiceName}}" 
 
 	"github.com/starfork/stargo"
-	"go.uber.org/zap"
+	"github.com/starfork/stargo/logger"
 )
 
 type handler struct {
-	logger *zap.SugaredLogger
+	logger logger.Logger
 	r      repo.{{ucwords .ServiceName}}Repository
 	pb.Unimplemented{{ucwords .ServiceName}}HandlerServer
 }

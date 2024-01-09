@@ -3,24 +3,22 @@ package mysql
 import (
 	"service/{{.ServiceName}}/internal/repository"
 
-	"go.uber.org/zap"
 	"gorm.io/gorm"
 
 	"github.com/starfork/stargo"
+	"github.com/starfork/stargo/logger"
+	"github.com/starfork/stargo/store/mysql"
 
 	pb "service/{{.ServiceName}}/pkg/pb/{{.ServiceName}}"
 )
 
 type Repo struct {
 	db     *gorm.DB
-	logger *zap.SugaredLogger
-	//app *app.App
-	//uid *uid.UID //partner
-	//sfid *sf.Sonyflakes
+	logger logger.Logger
 }
 
 func New(app *stargo.App) repository.{{ucwords .ServiceName}}Repository {
-	db := app.GetMysql().GetInstance()
+	db := app.Store("mysql").(*mysql.Mysql).GetInstance()
 
 	r := &Repo{
 		db:     db,
