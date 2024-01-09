@@ -5,7 +5,7 @@ import "service/{{$.ServiceName}}/pkg/proto/{{$.ServiceName}}_{{lower .Name}}.pr
 {{- end}} 
 option go_package = "pkg/pb/{{.ServiceName}}"; 
 
-service {{ucwords .ServiceName}}Handler {
+service {{ucwords .ServiceName}} {
     {{range .Messages}}
     //{{ucwords .Name}}
     rpc Create{{ucwords .Name}}({{ucwords .Name}}CreateRequest) returns ({{ucwords .Name}}) {}
