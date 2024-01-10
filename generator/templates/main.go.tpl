@@ -11,7 +11,7 @@ import (
 
 func main() {
 	_ = godotenv.Load("../../config/.env.development")
-	cf := flag.String("c", "../../config/debug.json", "config file path")
+	cf := flag.String("c", "../../config/debug.yaml", "config file path")
 	flag.Parse()
 	sc := server.LoadConfig(*cf)
 	app := stargo.New(
@@ -20,7 +20,7 @@ func main() {
 		stargo.Config(sc.Server),
 	)
 
-	pb.Register{{ucwords .ServiceName}}HandlerServer(app.Server(), server.New(app))
+	pb.Register{{ucwords .ServiceName}}Server(app.Server(), server.New(app))
 
 	app.Run()
 

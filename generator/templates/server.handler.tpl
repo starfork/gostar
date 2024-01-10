@@ -13,7 +13,7 @@ import (
 type handler struct {
 	logger logger.Logger
 	r      repo.{{ucwords .ServiceName}}Repository
-	pb.Unimplemented{{ucwords .ServiceName}}HandlerServer
+	pb.Unimplemented{{ucwords .ServiceName}}Server
 }
 
 // New handler

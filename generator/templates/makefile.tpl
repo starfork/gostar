@@ -84,6 +84,6 @@ define 	run_docker
 	$(eval D_IMAGE=$(ORG_NAME)-$(D_NAME)) 
 	-docker stop $(D_NAME)
 	-docker rm $(D_NAME)
-	docker run -d --name $(D_NAME) --network $(ORG_NAME) -v $(CONFIG_PATH):/$(ORG_NAME)/config --entrypoint ./$(D_IMAGE) --network-alias $(D_IMAGE) -p $(D_PORT):$(D_PORT) starfork/$(D_IMAGE) -c config/docker.json
+	docker run -d --name $(D_NAME) --network $(ORG_NAME) -v $(CONFIG_PATH):/$(ORG_NAME)/config --entrypoint ./$(D_IMAGE) --network-alias $(D_IMAGE) -p $(D_PORT):$(D_PORT) starfork/$(D_IMAGE) -c config/docker.yaml
 endef
  
