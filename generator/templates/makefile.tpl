@@ -58,14 +58,13 @@ nats:
 #构建proto
 define  build_service_proto   
 	$(eval PKG_PATH=./pkg) 
-	@rm -rf $(PKG_PATH)/pb/$(NAME)/*
+	@rm -rf $(PKG_PATH)/pb/$(NAME)/v1/*
 	@protoc --proto_path=../../ \
 	-I=../../park-pkg/proto/ \
-	-I=../../ \
-	--go-grpc_out=./ \
-	--go_out=./ \
+	--go-grpc_out=$(PKG_PATH)/pb \
+	--go_out=$(PKG_PATH)/pb  \
 	../../service/$(NAME)/pkg/proto/*.proto  
-	@protoc-go-inject-tag -input=$(PKG_PATH)/pb/$(NAME)/*.pb.go  
+	@protoc-go-inject-tag -input=$(PKG_PATH)/pb/$(NAME)/v1/*.pb.go  
 endef 
 
 ##在此之前需要完成proto构建
