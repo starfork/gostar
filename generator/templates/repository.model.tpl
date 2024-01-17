@@ -37,7 +37,7 @@ func (e *Repo) Update{{ucwords .Name}}(req *pb.{{ucwords .Name}}UpdateRequest) (
 	if err := e.db.First(rs).Error; err != nil {
 		return nil, err
 	}
-	data := &{{ucwords .Name}}{}
+	data := map[string]interface{}{}
 	mp.Decode(req, &data.{{ucwords .Name}})
 	if err := e.db.Unscoped().Updates(&data).Error; err != nil {
 		return nil, err

@@ -13,7 +13,8 @@ message {{ucwords .Name}}CreateRequest{
  {{end}}{{end}} 
 }
 message {{ucwords .Name}}UpdateRequest{
- {{range $k,$v:=.Fields}}{{if and (ne $v.Name "ctm") (ne $v.Name "utm") (ne $v.Name "dtm")}} {{$v.Typ}} {{$v.Name}}={{inc $k}};
+ {{range $k,$v:=.Fields}}{{if and (ne $v.Name "ctm") (ne $v.Name "utm") (ne $v.Name "dtm")}} //@inject_tag: mapstructure:",omitempty"`
+ {{$v.Typ}} {{$v.Name}}={{inc $k}};
  {{end}}{{end}} 
 }
 message {{ucwords .Name}}DeleteRequest{
