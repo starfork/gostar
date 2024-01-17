@@ -42,3 +42,17 @@ If no error occurr you'll get this folders(files)
     ├── pb
     └── proto
 ```
+
+#### Notice
+
+It suposed your working dir like this below
+
+```
+├── apps # gateway - implementation of service
+│   ├── app1
+│   ├── app2
+├── service # your services
+│   ├── service1
+│   ├── service2
+├── go.work  
+```
