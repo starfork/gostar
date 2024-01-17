@@ -1,5 +1,5 @@
 syntax = "proto3";
-package go.park.{{.ServiceName}};
+package go.park.{{.ServiceName}}.v1;
  
 option go_package = "pkg/pb/{{.ServiceName}}";
 
