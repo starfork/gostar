@@ -56,16 +56,17 @@ nats:
  
 #protoc --proto_path=./   --go-grpc_out=../pb --go_out=../pb ./*.proto  
 #构建proto
+
 define  build_service_proto   
 	$(eval PKG_PATH=./pkg) 
-	@rm -rf $(PKG_PATH)/pb/$(NAME)/v1/*
+	@rm -rf $(PKG_PATH)/pb/v1/*
 	@protoc --proto_path=../../ \
 	-I=../../park-pkg/proto/ \
-	--go-grpc_out=$(PKG_PATH)/pb \
-	--go_out=$(PKG_PATH)/pb  \
+	--go-grpc_out=../../ \
+	--go_out=../../  \
 	../../service/$(NAME)/pkg/proto/*.proto  
-	@protoc-go-inject-tag -input=$(PKG_PATH)/pb/$(NAME)/v1/*.pb.go  
-endef 
+	@protoc-go-inject-tag -input=$(PKG_PATH)/pb/v1/*.pb.go  
+endef  
 
 ##在此之前需要完成proto构建
 define build_docker 

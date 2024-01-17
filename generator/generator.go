@@ -89,7 +89,7 @@ func (e *Generator) Folders() error {
 
 func (e *Generator) SpecificFiles() {
 	fileMap := map[string]string{
-		"proto.handler.tpl":         "pkg/proto/" + e.svcName + "_handler" + ".proto", //xxx_handler.proto
+		"proto.handler.tpl":         "pkg/proto/" + e.svcName + ".proto", //xxx_handler.proto
 		"server.handler.tpl":        "internal/server/handler.go",
 		"repository.tpl":            "internal/repository/repository.go",
 		"makefile.tpl":              "Makefile",
@@ -120,7 +120,7 @@ func (e *Generator) Models() error {
 			FielNum:     len(m.Fields),
 		}
 		fName := strings.ToLower(m.FileName)
-		e.genTpl("proto.model.tpl", "pkg/proto/"+e.svcName+"_"+fName+".proto", msg)
+		e.genTpl("proto.model.tpl", "pkg/proto/"+fName+".proto", msg)
 		e.genTpl("server.model.tpl", "internal/server/"+fName+".go", msg)
 		e.genTpl("repository.model.tpl", "internal/repository/mysql/"+fName+".go", msg)
 

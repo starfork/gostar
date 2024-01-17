@@ -1,9 +1,9 @@
 syntax = "proto3";
 package go.park.{{.ServiceName}};
 {{- range .Messages}}
-import "service/{{$.ServiceName}}/pkg/proto/{{$.ServiceName}}_{{lower .Name}}.proto";
+import "service/{{$.ServiceName}}/pkg/proto/{{lower .Name}}.proto";
 {{- end}} 
-option go_package = "pkg/pb/{{.ServiceName}}"; 
+option go_package = "service/{{$.ServiceName}}/pkg/pb/v1"; 
 
 service {{ucwords .ServiceName}} {
     {{range .Messages}}

@@ -4,7 +4,7 @@ import (
 	repo "service/{{.ServiceName}}/internal/repository" 
 	"service/{{.ServiceName}}/internal/repository/mysql"
 
-	pb "service/{{.ServiceName}}/pkg/pb/{{.ServiceName}}" 
+	pb "service/{{.ServiceName}}/pkg/pb/v1" 
 
 	"github.com/starfork/stargo"
 	"github.com/starfork/stargo/logger"
