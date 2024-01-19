@@ -68,7 +68,8 @@ func (e *Repo) Delete{{ucwords .Name}}(req *pb.{{ucwords .Name}}DeleteRequest) (
 }
 
 func (e *Repo) Fetch{{ucwords .Name}}(req *pb.{{ucwords .Name}}FetchRequest) (*pb.{{ucwords .Name}}Response, error) {
-	rs := []*{{ucwords .Name}}{}
+	size:=20//一页如果超过20 修改这里
+	rs := make([]*{{ucwords .Name}},size) 
 	maps := pb.{{ucwords .Name}}{}
 	mp.Decode(req, &maps)
 
@@ -86,9 +87,10 @@ func (e *Repo) Fetch{{ucwords .Name}}(req *pb.{{ucwords .Name}}FetchRequest) (*p
 		return nil,err
 	}
 
-	data := []*pb.{{ucwords .Name}}{}
-	for _, v := range rs {
-		data = append(data, v.{{ucwords .Name}})
+	data := make([]*pb.{{ucwords .Name}},size)
+	for i, v := range rs {
+		//data = append(data, v.{{ucwords .Name}})
+		data[i]=v.{{ucwords .Name}}
 	} 
 	return &pb.{{ucwords .Name}}Response{Count: total, Data: data}, nil
 }
