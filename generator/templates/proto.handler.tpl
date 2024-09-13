@@ -9,7 +9,8 @@ service {{ucwords .ServiceName}} {
     {{range .Messages}}
     //{{ucwords .Name}}
     rpc Create{{ucwords .Name}}({{ucwords .Name}}CreateRequest) returns ({{ucwords .Name}}) {}
-    rpc Fetch{{ucwords .Name}}({{ucwords .Name}}FetchRequest) returns ({{ucwords .Name}}Response) {}
+    rpc List{{ucwords .Name}}({{ucwords .Name}}ListRequest) returns ({{ucwords .Name}}ListResponse) {}
+    rpc Get{{ucwords .Name}}({{ucwords .Name}}GetRequest) returns ({{ucwords .Name}}GetResponse) {}
     rpc Update{{ucwords .Name}}({{ucwords .Name}}UpdateRequest) returns ({{ucwords .Name}}) {} 
     rpc Delete{{ucwords .Name}}({{ucwords .Name}}DeleteRequest) returns (Response) {} 
     {{ end}}  
