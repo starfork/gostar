@@ -1,6 +1,6 @@
 module github.com/starfork/gostar
 
-go 1.21.4
+go 1.24.2
 
 require (
 	github.com/chuckpreslar/inflect v0.0.0-20150228233301-423e3ac59c61
